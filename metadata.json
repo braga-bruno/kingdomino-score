@@ -1,0 +1,5 @@
+{
+  "name": "Kingdomino Score Counter",
+  "description": "A simple and elegant tool to calculate scores for the Kingdomino board game, supporting multiple players and bonus points.",
+  "requestFramePermissions": []
+}
