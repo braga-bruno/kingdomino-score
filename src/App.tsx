@@ -11,11 +11,26 @@ import {
   Grid3X3, 
   Castle,
   RotateCcw,
-  Info
+  Info,
+  Wheat,
+  Trees,
+  Waves,
+  Droplets,
+  Sprout,
+  Pickaxe
 } from 'lucide-react';
 import { TerrainType, Player, Territory, TERRAIN_COLORS, TERRAIN_NAMES } from './types';
 
 const TERRAINS: TerrainType[] = ['wheat', 'forest', 'lake', 'swamp', 'grassland', 'mine'];
+
+const TERRAIN_ICONS: Record<TerrainType, any> = {
+  wheat: Wheat,
+  forest: Trees,
+  lake: Waves,
+  swamp: Droplets,
+  grassland: Sprout,
+  mine: Pickaxe,
+};
 
 export default function App() {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -319,7 +334,10 @@ export default function App() {
                             className={`flex flex-col items-center gap-2 p-3 md:p-4 rounded-2xl transition-all hover:scale-105 active:scale-95 ${TERRAIN_COLORS[terrain]} text-white shadow-md group border-b-4 border-black/20`}
                           >
                             <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                              <Plus size={20} />
+                              {(() => {
+                                const Icon = TERRAIN_ICONS[terrain];
+                                return <Icon size={20} />;
+                              })()}
                             </div>
                             <span className="text-[10px] font-black uppercase tracking-wider">{TERRAIN_NAMES[terrain]}</span>
                           </button>
@@ -339,7 +357,10 @@ export default function App() {
                           >
                             <div className="flex items-center gap-4 w-full sm:w-auto">
                               <div className={`w-14 h-14 rounded-2xl ${TERRAIN_COLORS[territory.terrain]} flex items-center justify-center text-white shrink-0 shadow-md border-b-4 border-black/10`}>
-                                <span className="text-[10px] font-black leading-tight text-center px-1 uppercase tracking-tighter">{TERRAIN_NAMES[territory.terrain]}</span>
+                                {(() => {
+                                  const Icon = TERRAIN_ICONS[territory.terrain];
+                                  return <Icon size={24} />;
+                                })()}
                               </div>
                               <div className="sm:hidden flex-1">
                                 <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">{TERRAIN_NAMES[territory.terrain]}</p>
