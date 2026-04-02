@@ -287,7 +287,7 @@ export default function App() {
                   <div className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
                     <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
                       <div>
-                        <h2 className="text-3xl font-black text-stone-800">{activePlayer.name}</h2>
+                        <h2 className="text-4xl font-black text-stone-800 tracking-tight">{activePlayer.name}</h2>
                         <p className="text-stone-500 font-medium">Configure os territórios do reino</p>
                       </div>
                       <div className="flex items-center gap-4">
@@ -298,27 +298,30 @@ export default function App() {
                         >
                           <Trash2 size={24} />
                         </button>
-                        <div className="bg-stone-900 text-white px-8 py-4 rounded-[1.5rem] flex items-center gap-4 shadow-xl">
-                          <span className="text-stone-400 text-xs uppercase tracking-[0.2em] font-black">Total</span>
-                          <span className="text-4xl font-black">{calculateScore(activePlayer)}</span>
+                        <div className="bg-stone-900 text-white px-8 py-4 rounded-2xl flex items-center gap-6 shadow-xl border border-white/10">
+                          <div className="flex flex-col">
+                            <span className="text-stone-500 text-[10px] uppercase tracking-[0.2em] font-black leading-none mb-1">Pontuação</span>
+                            <span className="text-stone-400 text-[10px] uppercase tracking-[0.2em] font-black leading-none">Total</span>
+                          </div>
+                          <span className="text-5xl font-black tabular-nums">{calculateScore(activePlayer)}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Quick Add Terrains */}
                     <div className="mb-10">
-                      <h3 className="text-xs font-black text-stone-400 uppercase tracking-[0.15em] mb-5">Adicionar Território</h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+                      <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-4">Adicionar Território</h3>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
                         {TERRAINS.map((terrain) => (
                           <button
                             key={terrain}
                             onClick={() => addTerritory(activePlayer.id, terrain)}
-                            className={`flex flex-col items-center gap-3 p-4 rounded-2xl transition-all hover:scale-105 active:scale-95 ${TERRAIN_COLORS[terrain]} text-white shadow-md group`}
+                            className={`flex flex-col items-center gap-2 p-3 md:p-4 rounded-2xl transition-all hover:scale-105 active:scale-95 ${TERRAIN_COLORS[terrain]} text-white shadow-md group border-b-4 border-black/20`}
                           >
-                            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                              <Plus size={24} />
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                              <Plus size={20} />
                             </div>
-                            <span className="text-[11px] font-black uppercase tracking-wider">{TERRAIN_NAMES[terrain]}</span>
+                            <span className="text-[10px] font-black uppercase tracking-wider">{TERRAIN_NAMES[terrain]}</span>
                           </button>
                         ))}
                       </div>
@@ -326,17 +329,17 @@ export default function App() {
 
                     {/* Territories List */}
                     <div className="space-y-6">
-                      <h3 className="text-xs font-black text-stone-400 uppercase tracking-[0.15em] mb-5">Territórios</h3>
-                      <div className="space-y-4">
+                      <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-4">Territórios Detalhados</h3>
+                      <div className="space-y-3">
                         {activePlayer.territories.map((territory) => (
                           <motion.div 
                             layout
                             key={territory.id}
-                            className="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-5 sm:p-6 bg-stone-50 rounded-3xl border border-stone-100 group relative shadow-sm"
+                            className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-4 sm:p-5 bg-stone-50 rounded-3xl border border-stone-200/60 group relative shadow-sm hover:shadow-md transition-shadow"
                           >
                             <div className="flex items-center gap-4 w-full sm:w-auto">
-                              <div className={`w-14 h-14 rounded-2xl ${TERRAIN_COLORS[territory.terrain]} flex items-center justify-center text-white shrink-0 shadow-md`}>
-                                <span className="text-[11px] font-black leading-tight text-center px-1 uppercase tracking-tighter">{TERRAIN_NAMES[territory.terrain]}</span>
+                              <div className={`w-14 h-14 rounded-2xl ${TERRAIN_COLORS[territory.terrain]} flex items-center justify-center text-white shrink-0 shadow-md border-b-4 border-black/10`}>
+                                <span className="text-[10px] font-black leading-tight text-center px-1 uppercase tracking-tighter">{TERRAIN_NAMES[territory.terrain]}</span>
                               </div>
                               <div className="sm:hidden flex-1">
                                 <p className="text-[10px] font-black text-stone-400 uppercase tracking-widest mb-1">{TERRAIN_NAMES[territory.terrain]}</p>
@@ -350,61 +353,65 @@ export default function App() {
                               </button>
                             </div>
                             
-                            <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
+                            <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-12">
                               {/* Size Control */}
-                              <div className="space-y-2">
-                                <label className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em]">Tamanho</label>
-                                <div className="flex items-center gap-3">
-                                  <button 
-                                    onClick={() => updateTerritory(activePlayer.id, territory.id, { size: Math.max(1, territory.size - 1) })}
-                                    className="w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
-                                  >
-                                    <ChevronLeft size={22} />
-                                  </button>
-                                  <span className="flex-1 sm:w-8 text-center font-black text-2xl text-stone-800">{territory.size}</span>
-                                  <button 
-                                    onClick={() => updateTerritory(activePlayer.id, territory.id, { size: territory.size + 1 })}
-                                    className="w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
-                                  >
-                                    <ChevronRight size={22} />
-                                  </button>
+                              <div className="flex items-center justify-between sm:justify-start gap-4">
+                                <div className="space-y-1">
+                                  <label className="text-[9px] font-black text-stone-400 uppercase tracking-[0.2em] block">Tamanho</label>
+                                  <div className="flex items-center gap-2">
+                                    <button 
+                                      onClick={() => updateTerritory(activePlayer.id, territory.id, { size: Math.max(1, territory.size - 1) })}
+                                      className="w-10 h-10 sm:w-9 sm:h-9 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+                                    >
+                                      <ChevronLeft size={20} />
+                                    </button>
+                                    <span className="w-8 text-center font-black text-xl text-stone-800 tabular-nums">{territory.size}</span>
+                                    <button 
+                                      onClick={() => updateTerritory(activePlayer.id, territory.id, { size: territory.size + 1 })}
+                                      className="w-10 h-10 sm:w-9 sm:h-9 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+                                    >
+                                      <ChevronRight size={20} />
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                               
                               {/* Crowns Control */}
-                              <div className="space-y-2">
-                                <label className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em]">Coroas</label>
-                                <div className="flex items-center gap-3">
-                                  <button 
-                                    onClick={() => updateTerritory(activePlayer.id, territory.id, { crowns: Math.max(0, territory.crowns - 1) })}
-                                    className="w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
-                                  >
-                                    <ChevronLeft size={22} />
-                                  </button>
-                                  <div className="flex-1 sm:w-10 flex items-center justify-center gap-2">
-                                    <span className="font-black text-2xl text-stone-800">{territory.crowns}</span>
-                                    <Crown size={18} className="text-yellow-500" />
+                              <div className="flex items-center justify-between sm:justify-start gap-4">
+                                <div className="space-y-1">
+                                  <label className="text-[9px] font-black text-stone-400 uppercase tracking-[0.2em] block">Coroas</label>
+                                  <div className="flex items-center gap-2">
+                                    <button 
+                                      onClick={() => updateTerritory(activePlayer.id, territory.id, { crowns: Math.max(0, territory.crowns - 1) })}
+                                      className="w-10 h-10 sm:w-9 sm:h-9 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+                                    >
+                                      <ChevronLeft size={20} />
+                                    </button>
+                                    <div className="w-10 flex items-center justify-center gap-1">
+                                      <span className="font-black text-xl text-stone-800 tabular-nums">{territory.crowns}</span>
+                                      <Crown size={16} className="text-yellow-500" />
+                                    </div>
+                                    <button 
+                                      onClick={() => updateTerritory(activePlayer.id, territory.id, { crowns: territory.crowns + 1 })}
+                                      className="w-10 h-10 sm:w-9 sm:h-9 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
+                                    >
+                                      <ChevronRight size={20} />
+                                    </button>
                                   </div>
-                                  <button 
-                                    onClick={() => updateTerritory(activePlayer.id, territory.id, { crowns: territory.crowns + 1 })}
-                                    className="w-12 h-12 sm:w-10 sm:h-10 rounded-xl bg-white border border-stone-200 flex items-center justify-center hover:bg-stone-100 transition-colors shadow-sm active:scale-95"
-                                  >
-                                    <ChevronRight size={22} />
-                                  </button>
                                 </div>
                               </div>
                             </div>
 
-                            <div className="text-right px-6 hidden sm:block border-l border-stone-200 ml-2">
-                              <p className="text-[10px] font-black text-stone-400 uppercase tracking-[0.2em] mb-1">Subtotal</p>
-                              <p className="font-black text-2xl text-stone-800">{territory.size * territory.crowns} pts</p>
+                            <div className="text-right px-6 hidden sm:block border-l border-stone-200 ml-2 min-w-[120px]">
+                              <p className="text-[9px] font-black text-stone-400 uppercase tracking-[0.2em] mb-1">Subtotal</p>
+                              <p className="font-black text-2xl text-stone-800 tabular-nums">{territory.size * territory.crowns} <span className="text-sm font-bold text-stone-400">pts</span></p>
                             </div>
 
                             <button 
                               onClick={() => removeTerritory(activePlayer.id, territory.id)}
-                              className="hidden sm:block p-3 text-stone-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                              className="hidden sm:block p-2 text-stone-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
                             >
-                              <Trash2 size={22} />
+                              <Trash2 size={20} />
                             </button>
                           </motion.div>
                         ))}
